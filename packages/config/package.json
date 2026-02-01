@@ -1,0 +1,20 @@
+{
+  "name": "@repo/config",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/env.js",
+  "types": "dist/env.d.ts",
+  "exports": {
+    "./env": {
+      "types": "./env.ts",
+      "default": "./dist/env.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "dotenv": "^17.2.3"
+  }
+}
