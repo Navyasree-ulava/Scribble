@@ -16,7 +16,8 @@
     "@types/dotenv": "^8.2.3",
     "@types/jsonwebtoken": "^9.0.10",
     "dotenv": "^17.2.3",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "@repo/db": "workspace:*"
   },
   "devDependencies": {
     "@types/ws": "^8.5.10",

@@ -1,22 +1,19 @@
 {
-  "name": "@repo/common",
+  "name": "@repo/db",
   "version": "1.0.0",
   "main": "index.js",
   "exports": {
-    "./types": {
-      "types": "./types.ts",
-      "default": "./dist/types.js"
+    "./client": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc -b"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*"
-  },
-  "dependencies": {
-    "zod": "^4.3.6"
   },
   "keywords": [],
   "author": "",

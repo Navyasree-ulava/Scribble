@@ -11,13 +11,16 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "@repo/config": "workspace:*",
     "@repo/common": "workspace:*",
+    "@repo/config": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@types/jsonwebtoken": "^9.0.10",
+    "bcrypt": "^6.0.0",
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
     "express": "^5.2.1"
   },

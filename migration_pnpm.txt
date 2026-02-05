@@ -1,0 +1,49 @@
+﻿
+> @repo/db@1.0.0 db:migrate C:\Users\navya\Downloads\scribble\packages\db
+> prisma migrate dev "--name" "init_schema"
+
+node.exe : 
+Environment 
+variables loaded 
+from .env
+At C:\Users\navya\App
+Data\Roaming\npm\pnpm
+.ps1:24 char:5
++     & "node$exe"  "
+$basedir/node_modules
+/pnpm/bin/pnpm.cjs" 
+$args
++     ~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Environ   
+ ment variables l    
+oaded from .env:    
+String) [], Remo    
+teException
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "neondb", schema "public" at "ep-red-star-ah7jpxcj.c-3.us-east-1.aws.neon.tech"
+
+Error: P1001: Can't 
+reach database 
+server at `ep-red-sta
+r-ah7jpxcj.c-3.us-eas
+t-1.aws.neon.tech:543
+2`
+
+Please make sure 
+your database server 
+is running at `ep-red
+-star-ah7jpxcj.c-3.us
+-east-1.aws.neon.tech
+:5432`.
+C:\Users\navya\Downloads\scribble\packages\db:
+ΓÇëERR_PNPM_RECURSIVE_RUN_FIRST_FAILΓÇë @repo/db@1.0.0 db:migrate: `prisma migrate dev "--name" "init_schema"`
+Exit status 1
