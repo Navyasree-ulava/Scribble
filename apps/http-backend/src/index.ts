@@ -114,7 +114,7 @@ app.post("/room", authMiddleware, async (req, res) => {
         })
     } catch (e) {
         return res.status(400).json({
-            message: "Room already exists with this name, please try with diff name"
+            message: "Room already exists with this name, please try with a diff name"
         })
     }
     
