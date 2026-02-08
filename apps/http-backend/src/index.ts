@@ -120,6 +120,20 @@ app.post("/room", authMiddleware, async (req, res) => {
     
 })
 
+app.get("/chats/:roomId", authMiddleware, async (req, res) => {
+    const roomId = req.params.roomId;
+    const chats = await prismaClient.chat.findMany({
+        where: {
+            roomId: Number(roomId)
+        },
+        orderBy: {
+            id: "desc"
+        },
+        take: 50
+    })
+    res.json(chats)
+})
+
 app.listen(3001, () => {
     console.log("Server started on port 3001");
 });
