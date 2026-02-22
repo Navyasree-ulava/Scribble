@@ -120,19 +120,42 @@ app.post("/room", authMiddleware, async (req, res) => {
     
 })
 
-app.get("/chats/:roomId", authMiddleware, async (req, res) => {
+app.get("/chats/:roomId", async (req, res) => {
     const roomId = req.params.roomId;
-    const chats = await prismaClient.chat.findMany({
-        where: {
-            roomId: Number(roomId)
-        },
-        orderBy: {
-            id: "desc"
-        },
-        take: 50
-    })
-    res.json(chats)
+    console.log(roomId)
+    try {
+        const messages= await prismaClient.chat.findMany({
+            where: {
+                roomId: Number(roomId)
+            },
+            orderBy: {
+                id: "desc"
+            },
+            take: 50
+        })
+        res.json({messages})
+    } catch (e) {
+        res.json({
+            messages: []
+        })
+    }
 })
+
+app.get("/room/:slug", async (req, res) => {
+    const slug = req.params.slug;
+
+    const room = await prismaClient.room.findFirst({
+        where: { slug }
+    });
+
+    if (!room) {
+        return res.status(404).json({
+            message: "Room not found"
+        });
+    }
+
+    res.json({ room });
+});
 
 app.listen(3001, () => {
     console.log("Server started on port 3001");

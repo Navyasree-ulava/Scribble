@@ -1,0 +1,2 @@
+export const HTTP_URL = "http://localhost:3001";
+export const WS_URL = "ws://localhost:8080?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YWU1NTM2Mi0zZGE4LTQyNjYtYmMzMS1mY2U4ZTZhM2MzY2QiLCJpYXQiOjE3NzE3NzA4ODd9.Extk5HcmTKFdp-FZFX07mbMmrwE7EGaXX5a-bCZMROo";

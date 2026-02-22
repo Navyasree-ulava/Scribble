@@ -46,63 +46,65 @@ wss.on('connection', function connection(ws, request) {
     SocketUsers.set(ws, userId);
     
     ws.on('message', async function message(data) {
-        let parsedData: any;
         try {
-            parsedData = JSON.parse(data.toString());
-        } catch (error) {
-            return;
-        }
-        if(parsedData.type === "join") {
-            const roomId = parsedData.roomId;
-            if(!rooms.has(roomId)) {
-                rooms.set(roomId, new Set());
-            }
-            rooms.get(roomId)?.add(ws);
-        }
-
-        if(parsedData.type === "chat") {
-            const roomId = parsedData.roomId;
-            const message = parsedData.message;
-            if(!roomId || !message) {
+            let parsedData: any;
+            try {
+                parsedData = JSON.parse(data.toString());
+            } catch (error) {
                 return;
             }
-            if (!rooms.get(roomId)?.has(ws)) {
-                ws.send(JSON.stringify({
-                    type: "error",
-                    message: "You are not a member of this room"
-                }));
-                return;
-            }
-
-            await prismaClient.chat.create({
-                data: {
-                    roomId,
-                    message,
-                    userId
+            if(parsedData.type === "join") {
+                const roomId = parsedData.roomId;
+                if(!rooms.has(roomId)) {
+                    rooms.set(roomId, new Set());
                 }
-            })
-
-            rooms.get(roomId)?.forEach((socket) => {
-                socket.send(JSON.stringify({
-                    type: "chat",
-                    message,
-                    userId
-                }));
-            })
-        }
-
-        if(parsedData.type === "leave") {
-            const roomId = parsedData.roomId;
-            if(!roomId) {
-                return;
+                rooms.get(roomId)?.add(ws);
             }
-            rooms.get(roomId)?.delete(ws);
 
-            // If room becomes empty, delete it
-            // This prevents memory leaks
-            if (rooms.get(roomId)?.size === 0) {
-                rooms.delete(roomId);
+            if(parsedData.type === "chat") {
+                const roomId = parsedData.roomId;
+                const message = parsedData.message;
+                if(!roomId || !message) {
+                    return;
+                }
+                if (!rooms.get(roomId)?.has(ws)) {
+                    ws.send(JSON.stringify({
+                        type: "error",
+                        message: "You are not a member of this room"
+                    }));
+                    return;
+                }
+
+                await prismaClient.chat.create({
+                    data: {
+                        roomId,
+                        message,
+                        userId
+                    }
+                })
+
+                rooms.get(roomId)?.forEach((socket) => {
+                    socket.send(JSON.stringify({
+                        type: "chat",
+                        message,
+                        userId
+                    }));
+                })
             }
+
+            if(parsedData.type === "leave") {
+                const roomId = parsedData.roomId;
+                if(!roomId) {
+                    return;
+                }
+                rooms.get(roomId)?.delete(ws);
+
+                if (rooms.get(roomId)?.size === 0) {
+                    rooms.delete(roomId);
+                }
+            }
+        } catch (e) {
+            console.error(e);
         }
     })
 
