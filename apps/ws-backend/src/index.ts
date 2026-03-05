@@ -75,7 +75,7 @@ wss.on('connection', function connection(ws, request) {
                     return;
                 }
 
-                await prismaClient.chat.create({
+                const chat = await prismaClient.chat.create({
                     data: {
                         roomId,
                         message,
@@ -87,9 +87,31 @@ wss.on('connection', function connection(ws, request) {
                     socket.send(JSON.stringify({
                         type: "chat",
                         message,
-                        userId
+                        userId,
+                        id: chat.id
                     }));
                 })
+            }
+
+            if(parsedData.type === "delete") {
+                const roomId = Number(parsedData.roomId);
+                const chatId = Number(parsedData.id);
+                if(!roomId || !chatId) {
+                    return;
+                }
+
+                await prismaClient.chat.delete({
+                    where: {
+                        id: chatId
+                    }
+                });
+
+                rooms.get(roomId)?.forEach((socket) => {
+                    socket.send(JSON.stringify({
+                        type: "delete",
+                        id: chatId
+                    }));
+                });
             }
 
             if(parsedData.type === "leave") {

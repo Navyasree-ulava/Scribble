@@ -1,14 +1,17 @@
 "use client";
 
-import { WEBSOCKET_BACKEND } from "../config";
-import { useEffect, useRef, useState } from "react";
+import { WS_URL } from "../config";
+import { useEffect, useState } from "react";
 import { Canvas } from "./Canvas";
 
 export function RoomCanvas({roomId}: {roomId: string}) {
     const [socket, setSocket] = useState<WebSocket | null>(null);
 
     useEffect(() => {
-        const ws = new WebSocket(`${WEBSOCKET_BACKEND}?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMTdhMDFjOC1lZGRlLTRhOGItYjAxZi1kNmQzZDEzZWU0Y2MiLCJpYXQiOjE3NzI3Mjk1ODl9.3M94rIwfWjEwJmGfusrXrBE2zvOAMo_jEFhtyt_whjE`)
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        const ws = new WebSocket(`${WS_URL}?token=${token}`)
 
         ws.onopen = () => {
             setSocket(ws);
@@ -16,15 +19,21 @@ export function RoomCanvas({roomId}: {roomId: string}) {
                 type: "join",
                 roomId: Number(roomId)
             });
-            console.log(data);
             ws.send(data)
         }
+
+        return () => {
+            ws.close();
+        }
         
-    }, [])
+    }, [roomId])
    
     if (!socket) {
-        return <div>
-            Connecting to server....
+        return <div className="h-screen w-full flex items-center justify-center bg-slate-950 text-slate-400 font-medium">
+            <div className="flex flex-col items-center gap-4">
+                <div className="w-6 h-6 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
+                <span className="text-xs uppercase tracking-widest opacity-70">Connecting to server...</span>
+            </div>
         </div>
     }
 
