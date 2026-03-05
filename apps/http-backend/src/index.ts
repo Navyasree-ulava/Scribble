@@ -5,10 +5,11 @@ import { CreateUserSchema, SigninUserSchema, CreateRoomSchema } from "@repo/comm
 import { prismaClient } from "@repo/db/client";
 import bcrypt from "bcrypt";
 import { authMiddleware } from "./middleware.js";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 app.get("/health", (req, res) => {
     res.send("OK");
 });
@@ -37,7 +38,7 @@ app.post("/signup", async (req, res) => {
     })
     } catch (e) {
         return res.status(400).json({
-            message: "User already exists"
+            message: e
         })
     }
 

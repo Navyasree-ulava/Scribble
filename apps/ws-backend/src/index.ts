@@ -54,7 +54,7 @@ wss.on('connection', function connection(ws, request) {
                 return;
             }
             if(parsedData.type === "join") {
-                const roomId = parsedData.roomId;
+                const roomId = Number(parsedData.roomId);
                 if(!rooms.has(roomId)) {
                     rooms.set(roomId, new Set());
                 }
@@ -62,7 +62,7 @@ wss.on('connection', function connection(ws, request) {
             }
 
             if(parsedData.type === "chat") {
-                const roomId = parsedData.roomId;
+                const roomId = Number(parsedData.roomId);
                 const message = parsedData.message;
                 if(!roomId || !message) {
                     return;
