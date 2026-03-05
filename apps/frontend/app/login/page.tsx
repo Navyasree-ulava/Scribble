@@ -19,7 +19,7 @@ export default function Login() {
       />
 
       <div className="relative z-10">
-        <AuthCard title="Welcome Back" buttonText="Login" />
+        <AuthCard title="Welcome Back" buttonText="Login" isSignup={false} />
       </div>
 
     </div>

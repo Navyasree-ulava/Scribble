@@ -59,9 +59,12 @@ export default function Home() {
           </p>
 
           <div className="flex gap-4 mt-10">
-            <button className="px-6 py-3 bg-purple-500 rounded-lg hover:bg-purple-600 font-medium">
+            <Link 
+              href="/dashboard"
+              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full hover:from-purple-600 hover:to-indigo-700 font-semibold text-white shadow-xl shadow-purple-500/20 transition-all hover:scale-[1.05] active:scale-[0.95]"
+            >
               Start Drawing
-            </button>
+            </Link>
           </div>
 
         </section>

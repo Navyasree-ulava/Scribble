@@ -19,7 +19,7 @@ export default function Signup() {
       />
 
       <div className="relative z-10">
-        <AuthCard title="Create your account" buttonText="Sign Up" />
+        <AuthCard title="Create your account" buttonText="Sign Up" isSignup={true} />
       </div>
 
     </div>

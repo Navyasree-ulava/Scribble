@@ -121,6 +121,23 @@ app.post("/room", authMiddleware, async (req, res) => {
     
 })
 
+app.get("/rooms", authMiddleware, async (req, res) => {
+    // @ts-ignore
+    const user = req.userId;
+    try {
+        const rooms = await prismaClient.room.findMany({
+            where: {
+                adminId: user
+            }
+        })
+        res.json({ rooms })
+    } catch (e) {
+        res.status(500).json({
+            message: "Internal server error"
+        })
+    }
+})
+
 app.get("/chats/:roomId", async (req, res) => {
     const roomId = req.params.roomId;
     console.log(roomId)
