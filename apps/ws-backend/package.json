@@ -13,15 +13,15 @@
   "dependencies": {
     "@repo/config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@repo/db": "workspace:*",
     "@types/dotenv": "^8.2.3",
     "@types/jsonwebtoken": "^9.0.10",
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.3",
-    "@repo/db": "workspace:*"
+    "ws": "^8.19.0"
   },
   "devDependencies": {
-    "@types/ws": "^8.5.10",
-    "ws": "^8.19.0"
+    "@types/ws": "^8.5.10"
   },
   "keywords": [],
   "author": "",

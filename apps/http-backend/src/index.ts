@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from '@repo/config/env';
+import { JWT_SECRET, PORT } from '@repo/config/env';
 import { CreateUserSchema, SigninUserSchema, CreateRoomSchema } from "@repo/common/types";
 import { prismaClient } from "@repo/db/client";
 import bcrypt from "bcrypt";
@@ -9,7 +9,21 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+// Comma-separated list of allowed origins, e.g. "https://your-app.vercel.app".
+// Falls back to allowing any origin so local development keeps working.
+const allowedOrigins = (process.env.CORS_ORIGIN || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+app.use(
+    cors({
+        origin: allowedOrigins.length > 0 ? allowedOrigins : true,
+        methods: ["GET", "POST", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
 app.get("/health", (req, res) => {
     res.send("OK");
 });
@@ -175,6 +189,16 @@ app.get("/room/:slug", async (req, res) => {
     res.json({ room });
 });
 
-app.listen(3001, () => {
-    console.log("Server started on port 3001");
+const server = app.listen(PORT, "0.0.0.0", () => {
+    console.log(`HTTP server listening on port ${PORT}`);
 });
+
+const shutdown = (signal: string) => {
+    console.log(`${signal} received, shutting down`);
+    server.close(() => {
+        void prismaClient.$disconnect().then(() => process.exit(0));
+    });
+};
+
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));

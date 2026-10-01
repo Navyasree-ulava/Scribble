@@ -103,6 +103,9 @@ importers:
       cors:
         specifier: ^2.8.6
         version: 2.8.6
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
@@ -113,9 +116,6 @@ importers:
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
-      express:
-        specifier: ^5.2.1
-        version: 5.2.1
 
   apps/web:
     dependencies:
@@ -180,13 +180,13 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
+      ws:
+        specifier: ^8.19.0
+        version: 8.19.0
     devDependencies:
       '@types/ws':
         specifier: ^8.5.10
         version: 8.18.1
-      ws:
-        specifier: ^8.19.0
-        version: 8.19.0
 
   packages/common:
     dependencies:

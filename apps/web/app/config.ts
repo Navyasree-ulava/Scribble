@@ -1,2 +1,4 @@
-export const HTTP_URL = "http://localhost:3001";
-export const WS_URL = "ws://localhost:8080?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMTdhMDFjOC1lZGRlLTRhOGItYjAxZi1kNmQzZDEzZWU0Y2MiLCJpYXQiOjE3NzI3Mjk1ODl9.3M94rIwfWjEwJmGfusrXrBE2zvOAMo_jEFhtyt_whjE";
+// The legacy text-chat prototype. Not deployed — see DEPLOYMENT.md.
+// These values are read from the environment so no credentials live in git.
+export const HTTP_URL = process.env.NEXT_PUBLIC_HTTP_BACKEND || "http://localhost:3001";
+export const WS_URL = process.env.NEXT_PUBLIC_WS_BACKEND || "ws://localhost:8080";

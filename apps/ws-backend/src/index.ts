@@ -3,7 +3,11 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '@repo/config/env';
 import { prismaClient } from '@repo/db/client';
 
-const wss = new WebSocketServer({ port: 8080 });
+// Railway injects PORT; fall back to 8080 for local development.
+const PORT = Number(process.env.PORT || 8080);
+
+// Bind to 0.0.0.0 so Railway's proxy can reach the server.
+const wss = new WebSocketServer({ port: PORT, host: "0.0.0.0" });
 
 const userSockets = new Map<string, Set<WebSocket>>();
 const SocketUsers = new Map<WebSocket, string>();
@@ -153,7 +157,17 @@ wss.on('connection', function connection(ws, request) {
 
 });
 
-console.log("WebSocket server is running on ws://localhost:8080");
+console.log(`WebSocket server listening on port ${PORT}`);
+
+const shutdown = (signal: string) => {
+    console.log(`${signal} received, shutting down`);
+    wss.close(() => {
+        void prismaClient.$disconnect().then(() => process.exit(0));
+    });
+};
+
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));
 
 
 
