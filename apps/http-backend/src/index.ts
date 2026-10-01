@@ -12,10 +12,23 @@ app.use(express.json());
 
 // Comma-separated list of allowed origins, e.g. "https://your-app.vercel.app".
 // Falls back to allowing any origin so local development keeps working.
+//
+// Each entry is normalized: a pasted trailing slash would otherwise never match,
+// because browsers send the Origin header without one. That mismatch is silent
+// and surfaces only as a browser CORS error, so it is worth handling here.
 const allowedOrigins = (process.env.CORS_ORIGIN || "")
     .split(",")
-    .map((origin) => origin.trim())
+    .map((origin) => origin.trim().replace(/\/+$/, ""))
     .filter(Boolean);
+
+if (process.env.NODE_ENV === "production" && allowedOrigins.length === 0) {
+    console.warn(
+        "CORS_ORIGIN is not set, so every origin is allowed. Set it to your " +
+        "frontend URL (comma separated) to restrict access."
+    );
+} else if (allowedOrigins.length > 0) {
+    console.log(`CORS: allowing origins -> ${allowedOrigins.join(", ")}`);
+}
 
 app.use(
     cors({
